@@ -28,6 +28,12 @@ var server = http.createServer(app);
 var io = app.io;
 io.attach(server);
 
+io.configure(function () {
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
+});
+
+
 /**
  * Listen on provided port, on all network interfaces.
  */
