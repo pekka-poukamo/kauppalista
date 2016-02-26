@@ -1,4 +1,8 @@
 script(id="item_template" type="text/html")
-	li(id="{{_id}}" class="item")
-		input(type="text" value="{{text}}")
-		button(type="button" class="btn btn-link" item_id="{{_id}}") delete
+	li(id="{{_id}}" class="list-group-item item")
+		.input-group
+			input(type="text" value="{{text}}" class="form-control")
+			span.input-group-btn(type="button")
+				button(type="button" class="btn btn-default" item_id="{{_id}}")
+					span.glyphicon.glyphicon-trash
+					| &nbsp;Delete

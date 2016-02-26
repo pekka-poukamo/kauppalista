@@ -16,12 +16,10 @@ $(document).ready(function() {
 	});
 
 	$('#items').on('click', '.item button', function() {
-		console.log($(this).attr('item_id'));
 		socket.emit('item_delete', $(this).attr('item_id'));
 	});
 
 	$('#items').on('keyup', '.item input', function() {
-		console.log($(this).parent().attr('id'));
 		socket.emit('item_change', {
 			id: $(this).parent().attr('id'),
 			text: $(this).val()

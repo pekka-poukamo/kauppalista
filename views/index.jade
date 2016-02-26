@@ -4,10 +4,10 @@ block content
 	.container
 		h1 Kauppalista
 
-		ul(id="items")
-			
-		ul(id="messages")
+		ul(id="items" class="list-group")
 
 		form(action="")
-			input(id="m" autocomplete="off")
-			button Send
+			.input-group
+				input(id="m" type="text" class="form-control")
+				span.input-group-btn
+					button.btn.btn-primary Send
