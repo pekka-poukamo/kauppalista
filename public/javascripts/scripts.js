@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 	$('#items').on('keyup', '.item input', function() {
 		socket.emit('item_change', {
-			id: $(this).parent().attr('id'),
+			id: $(this).parent().parent().attr('id'),
 			text: $(this).val()
 		});
 

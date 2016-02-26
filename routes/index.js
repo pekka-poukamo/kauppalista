@@ -33,13 +33,17 @@ module.exports = function(io) {
 	  });
 
 	  socket.on('item_change', (data) => {
+	  	console.log(data.id);
 	  	Item.findById(data.id, (err, item) => {
 			if (err) {
 				 io.emit('error', err);
 			} else {
-				// console.log(JSON.stringify(item));
+				console.log(JSON.stringify(item));
 	  			item.text = data.text;
-	  			socket.broadcast.emit('item_change', data);
+	  			item.save((err) => {
+	  				if (err) io.emit('error', err);
+		  			else socket.broadcast.emit('item_change', data);
+	  			});
 	  		}
 	  	});
 	  });
