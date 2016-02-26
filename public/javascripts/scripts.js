@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 	var itemTemplate = $('#item_template').html();
-	var socket = io.connect('/');
+	var socket = io.connect(window.location.hostname);
 
 	$.getJSON('/items').done(function(items) {
 		$.each(items, function(i, item) {
