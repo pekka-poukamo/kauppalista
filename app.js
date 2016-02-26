@@ -13,11 +13,6 @@ var app = express();
 var io = socket_io();
 app.io = io;
 
-io.configure(function () {
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
-});
-
 
 io.on('error', (error) => console.log(error));
 
