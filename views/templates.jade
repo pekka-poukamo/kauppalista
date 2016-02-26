@@ -1,4 +1,4 @@
 script(id="item_template" type="text/html")
 	li(id="{{_id}}" class="item")
-		{{text}}&nbsp;
+		input(type="text" value="{{text}}")
 		button(type="button" class="btn btn-link" item_id="{{_id}}") delete
