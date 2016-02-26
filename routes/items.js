@@ -1,9 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-var mongodb = require('mongodb');
-var uri = 'mongodb://heroku_50wwz2b9:tvst8bquk7n3bc4mvuan4n2e83@ds017688.mlab.com:17688/heroku_50wwz2b9';
-
 var Item = require('../models/item');
 
 
@@ -40,7 +37,7 @@ router.put('/:item_id', (req, res) => {
 	});
 });
 
-router.delete('/:item_id', (req, res => {
+router.delete('/:item_id', (req, res) => {
 	Item.remove({
 		_id: req.params.item_id
 	}, (err, item) => {
@@ -48,7 +45,7 @@ router.delete('/:item_id', (req, res => {
 
 		res.json({message: 'Item deleted'});
 	});
-}));
+});
 
 router.post('/', (req, res) => {
 
