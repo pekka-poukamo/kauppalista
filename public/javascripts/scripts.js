@@ -4,14 +4,22 @@ $(document).ready(function() {
 	var socket = io.connect('/');
 
 	$.getJSON('/items').done(function(items) {
+		var checked = [];
 		$.each(items, function(i, item) {
 			if (item.checked) {
-				$('#checked').append(Mustache.render(itemTemplate, item));
-				$('#' + item._id + ' input[type="checkbox"]').prop('checked', true);
+				checked.push(item);
 			} else {
 				$('#items').append(Mustache.render(itemTemplate, item));
 			}
 		});
+		
+		checked.reverse();
+
+		$.each(checked, function(i, item) {
+			$('#checked').append(Mustache.render(itemTemplate, item));
+			$('#' + item._id + ' input[type="checkbox"]').prop('checked', true);
+		});
+
 	});
 
 	$('form').submit(function() {

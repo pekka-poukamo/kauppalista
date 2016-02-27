@@ -7,7 +7,7 @@ var Item = require('../models/item');
 /* GET users listing. */
 router.get('/', (req, res) => {
 
-	Item.find((err, items) => {
+	Item.find().sort({updated_at: 1}).exec((err, items) => {
 		if (err) res.send(err);
 
 		res.json(items);
