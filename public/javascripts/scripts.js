@@ -33,8 +33,6 @@ $(document).ready(function() {
 
 	$('#items, #checked').on('change', 'input[type="checkbox"]', function() {
 		var $item = $(this).closest('li');
-		console.log('no muuttuha, ' + $item.attr('id') + ', ' + $(this).prop('checked'));
-
 		socket.emit('item_checked', {
 			id: $item.attr('id'),
 			checked: $(this).prop('checked')
