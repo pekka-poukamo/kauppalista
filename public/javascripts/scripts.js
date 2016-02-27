@@ -5,7 +5,12 @@ $(document).ready(function() {
 
 	$.getJSON('/items').done(function(items) {
 		$.each(items, function(i, item) {
-			$('#items').append(Mustache.render(itemTemplate, item));
+			if (item.checked) {
+				$('#checked').append(Mustache.render(itemTemplate, item));
+				$('#' + item._id + ' input[type="checkbox"]').prop('checked', true);
+			} else {
+				$('#items').append(Mustache.render(itemTemplate, item));
+			}
 		});
 	});
 
@@ -15,23 +20,26 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$('#items').on('click', '.item button', function() {
+	$('#items, #checked').on('click', '.item button', function() {
 		socket.emit('item_delete', $(this).attr('item_id'));
 	});
 
-	$('#items').on('keyup', '.item input', function() {
+	$('#items, #checked').on('keyup', '.item input', function() {
 		socket.emit('item_change', {
 			id: $(this).closest('li').attr('id'),
 			text: $(this).val()
 		});
 	});
 
-	$('#items').on('change', 'input[type="checkbox"]', function() {
-		console.log('no muuttuha, ' + $(this).closest('li').attr('id') + ', ' + $(this).prop('checked'));
+	$('#items, #checked').on('change', 'input[type="checkbox"]', function() {
+		var $item = $(this).closest('li');
+		console.log('no muuttuha, ' + $item.attr('id') + ', ' + $(this).prop('checked'));
+
 		socket.emit('item_checked', {
-			id: $(this).closest('li').attr('id'),
+			id: $item.attr('id'),
 			checked: $(this).prop('checked')
 		});
+		$item.prependTo($(itemList($(this).prop('checked'))));
 	});
 
 	socket.on('item_create', function(item) {
@@ -43,12 +51,18 @@ $(document).ready(function() {
 	});
 
 	socket.on('item_checked', function(item) {
-		$('#' + item.id + ' input[type="checkbox"]').prop('checked', item.checked);
+		var $item = $('#' + item.id + ' input[type="checkbox"]');
+		$item.prop('checked', item.checked);
+		$item.closest('li').prependTo($(itemList(item.checked)));
 	});
 
 	socket.on('item_delete', function(itemId) {
 		console.log('Delete item ' + itemId);
 		$('#' + itemId).remove();
 	});
+
+	var itemList = function(checked) {
+		if (checked) {return '#checked';} else {return '#items';}
+	};
 
 });
