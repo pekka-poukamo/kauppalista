@@ -1,8 +1,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var uri = 'mongodb://heroku_50wwz2b9:tvst8bquk7n3bc4mvuan4n2e83@ds017688.mlab.com:17688/heroku_50wwz2b9';
-mongoose.connect(uri);
+var uri = process.env.MONGOLAB_URI || 'mongodb://node:node@localhost/test';
+mongoose.connect(uri, (err) => {
+	console.log(err);
+});
 
 var ItemSchema = new Schema({
 	text: String,
