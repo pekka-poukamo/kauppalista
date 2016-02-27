@@ -7,7 +7,8 @@ mongoose.connect(uri);
 var ItemSchema = new Schema({
 	text: String,
 	checked: {type: Boolean, default: false},
-	date: {type: Date, default: Date.now}
+},{
+	timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}
 });
 
 module.exports = mongoose.model('Item', ItemSchema);

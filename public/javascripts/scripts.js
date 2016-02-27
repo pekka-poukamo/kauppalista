@@ -39,7 +39,7 @@ $(document).ready(function() {
 			id: $item.attr('id'),
 			checked: $(this).prop('checked')
 		});
-		$item.prependTo($(itemList($(this).prop('checked'))));
+		switchList($item);
 	});
 
 	socket.on('item_create', function(item) {
@@ -53,7 +53,7 @@ $(document).ready(function() {
 	socket.on('item_checked', function(item) {
 		var $item = $('#' + item.id + ' input[type="checkbox"]');
 		$item.prop('checked', item.checked);
-		$item.closest('li').prependTo($(itemList(item.checked)));
+		switchList($item.closest('li'));
 	});
 
 	socket.on('item_delete', function(itemId) {
@@ -63,6 +63,15 @@ $(document).ready(function() {
 
 	var itemList = function(checked) {
 		if (checked) {return '#checked';} else {return '#items';}
+	};
+
+	var switchList = function($item) {
+		var checked = $($item).find('input[type="checkbox"]').prop('checked');
+		if (checked) {
+			$item.prependTo('#checked');
+		} else {
+			$item.appendTo('#items');
+		}
 	};
 
 });

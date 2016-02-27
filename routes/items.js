@@ -26,10 +26,7 @@ router.put('/:item_id', (req, res) => {
 	Item.findById(req.params.item_id, (err, item) => {
 		if (err) res.send(err);
 
-		console.log(req.body);
-
 		item.text = req.body.text;
-		item.date = Date.now();
 		item.checked = req.body.checked;
 
 		res.json({message: 'Item updated!', item: item});
@@ -51,8 +48,6 @@ router.post('/', (req, res) => {
 
 	var item = new Item();
 	item.text = req.body.text;
-	item.date = Date.now();
-	item.checked = false;
 
 	item.save((err) => {
 		if (err) res.send(err);
