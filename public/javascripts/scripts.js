@@ -21,10 +21,17 @@ $(document).ready(function() {
 
 	$('#items').on('keyup', '.item input', function() {
 		socket.emit('item_change', {
-			id: $(this).parent().parent().attr('id'),
+			id: $(this).closest('li').attr('id'),
 			text: $(this).val()
 		});
+	});
 
+	$('#items').on('change', 'input[type="checkbox"]', function() {
+		console.log('no muuttuha, ' + $(this).closest('li').attr('id') + ', ' + $(this).prop('checked'));
+		socket.emit('item_checked', {
+			id: $(this).closest('li').attr('id'),
+			checked: $(this).prop('checked')
+		});
 	});
 
 	socket.on('item_create', function(item) {
@@ -32,7 +39,11 @@ $(document).ready(function() {
 	});
 
 	socket.on('item_change', function(item) {
-		$('#' + item.id + ' input').val(item.text);
+		$('#' + item.id + ' input[type="text"]').val(item.text);
+	});
+
+	socket.on('item_checked', function(item) {
+		$('#' + item.id + ' input[type="checkbox"]').prop('checked', item.checked);
 	});
 
 	socket.on('item_delete', function(itemId) {
