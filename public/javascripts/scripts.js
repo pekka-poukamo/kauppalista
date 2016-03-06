@@ -67,8 +67,12 @@ $(document).ready(function() {
 	});
 
 	socket.on('item_delete', function(itemId) {
-		console.log('Delete item ' + itemId);
 		$('#' + itemId).remove();
+	});
+
+	socket.on('order_changed', function (newOrder) {
+		console.log('New order!');
+		sortList(newOrder.listId, newOrder.order);
 	});
 
 	var itemList = function(checked) {
@@ -87,9 +91,58 @@ $(document).ready(function() {
 	var makeSortable = function(id) {
 		var el = document.getElementById(id);
 		Sortable.create(el, {
-			handle: '.glyphicon-move',
-			animation: 150
+			handle: '.handle',
+			animation: 150,
+
+			onSort: function(e) {
+				$list = $(e.target);
+
+				$list.children('li').each(function(i, child) {
+					$(child).attr('index', $(child).index());
+				});
+
+				socket.emit('order_changed', {
+					listId: $list.attr('id'),
+					order: getListOrder($list)
+				});
+
+				// sortList($list, getListOrder($list));
+			}
 		});
+	};
+
+	var getListOrder = function($list) {
+		var array = [];
+		$list.children('li').each(function(i, child) {
+			array.push({
+				id: $(child).attr('id'),
+				index: $(child).index()
+			});
+		});
+
+		return array;
+	};
+
+	var sortList = function(listId, order) {
+
+		var $list = $('#' + listId);
+
+		for (var i = order.length - 1; i >= 0; i--) {
+			var item = order[i];
+			// console.log($list.children('[id='+item.id+']').attr('index') + ', ' + item.index);
+			// console.log($list.children('[id='+item.id+']').attr('index') == item.index);
+			$list.children('[id='+item.id+']').attr('index', item.index);
+		}
+
+		console.log($list.children('li'));
+		console.log($list.children('li').sort(sort_li));
+		$list.children('li').sort(sort_li) // sort elements
+                  .appendTo($list); // append again to the list
+
+		// sort function callback
+		function sort_li(a, b){
+		    return ($(b).attr('index')) < ($(a).attr('index')) ? 1 : -1;
+		}
 	};
 
 });

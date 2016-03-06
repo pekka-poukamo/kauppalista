@@ -20,3 +20,11 @@ a {
 .list-group .input-group-addon:nth-child(2) {
 	border-right: 0;
 }
+
+input[type=checkbox] {
+	/*-webkit-transform: scale(1.5);
+	-moz-transform: scale(1.5);
+	-ms-transform: scale(1.5);
+	-o-transform: scale(1.5);
+	transform: scale(1.5);*/
+}

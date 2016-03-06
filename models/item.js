@@ -9,6 +9,7 @@ mongoose.connect(uri, (err) => {
 var ItemSchema = new Schema({
 	text: String,
 	checked: {type: Boolean, default: false},
+	index: {type: Number, default: 0}
 },{
 	timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}
 });
