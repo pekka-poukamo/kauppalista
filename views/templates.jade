@@ -2,6 +2,8 @@ script(id="item_template" type="text/html")
 	li(id="{{_id}}" class="list-group-item item")
 		.input-group
 			span.input-group-addon
+				span.glyphicon.glyphicon-move(aria-hidden="true")
+			span.input-group-addon
 				input(type="checkbox")
 			input(type="text" value="{{text}}" class="form-control")
 			span.input-group-btn(type="button")

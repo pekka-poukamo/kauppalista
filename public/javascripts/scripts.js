@@ -1,3 +1,5 @@
+// Library for sortable lists https://github.com/RubaXa/Sortable
+
 $(document).ready(function() {
 
 	var itemTemplate = $('#item_template').html();
@@ -12,7 +14,7 @@ $(document).ready(function() {
 				$('#items').append(Mustache.render(itemTemplate, item));
 			}
 		});
-		
+
 		checked.reverse();
 
 		$.each(checked, function(i, item) {
@@ -20,6 +22,8 @@ $(document).ready(function() {
 			$('#' + item._id + ' input[type="checkbox"]').prop('checked', true);
 		});
 
+		makeSortable('items');
+		makeSortable('checked');
 	});
 
 	$('form').submit(function() {
@@ -78,6 +82,14 @@ $(document).ready(function() {
 		} else {
 			$item.appendTo('#items');
 		}
+	};
+
+	var makeSortable = function(id) {
+		var el = document.getElementById(id);
+		Sortable.create(el, {
+			handle: '.glyphicon-move',
+			animation: 150
+		});
 	};
 
 });
