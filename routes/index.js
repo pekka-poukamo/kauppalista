@@ -74,34 +74,14 @@ module.exports = function(io) {
 
 	  	async.eachLimit(newOrder.order, 10, (data, done) => {
 
-	  		Item.update({_id: data.id}, {$set: {index: data.index}}, done);
+	  		Item.update({_id: data.id}, {$set: {index: data.index}}, (err, items, t) => {
+	  			console.log(err);
+	  			console.log(items);
+	  			console.log(t);
+	  			done();
+	  		});
 
 	  	});
-	  	// for (var i = newOrder.order.length - 1; i >= 0; i--) {
-	  	// 	var data = newOrder.order[i];
-	  	// 	// console.log(data);
-
-	  	// 	// Item.findByIdAndUpdate(item.id, {index: item.index});
-
-	  	// 	Item.update({_id: data.id}, {$set: {index: data.index}});
-	  	// // 	Item.findById(data.id, (err, item) => {
-		  // // 		if (err) {
-				// // 	 io.emit('error', err);
-				// // 	 errors = true;
-				// // } else {
-				// // 	console.log(data);
-				// // 	console.log(item.index + ', ' + data.index);
-				// // 	item.index = data.index;
-				// // 	console.log(item.index + ', ' + data.index + '\n');
-				// // 	item.save((err) => {
-		  // // 				if (err) {
-		  // // 					io.emit('error', err);
-		  // // 					errors = true;
-		  // // 				}
-				// // 	});
-				// // }
-		  // // 	});
-	  	// }
 	  	if (!errors) socket.broadcast.emit('order_changed', newOrder);
 	  });
 	});
